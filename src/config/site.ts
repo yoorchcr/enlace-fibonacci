@@ -9,7 +9,7 @@ export const SITE = {
   lang: "es",
   defaultTitle: "Enlace Fibonacci",
   defaultDescription:
-    "Enlace Fibonacci: Gerardo López y Luis Felipe López, arquitectos. Proyectos que nacen en el plano y se sienten en el espacio, como el Estadio Heredia.",
+    "Enlace Fibonacci: Luis Felipe López y Gerardo López, arquitectos. Proyectos que nacen en el plano y se sienten en el espacio, como el Estadio Heredia.",
   /** Default Open Graph image, relative to the site root. */
   ogImage: "/images/og-enlace-fibonacci.jpg",
 } as const;
