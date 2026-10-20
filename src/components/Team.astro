@@ -1,0 +1,123 @@
+---
+/** Two-column team profiles. */
+const members = [
+  {
+    name: "Gerardo López",
+    role: "Arquitecto",
+    text: "Décadas de obra construida le dan a cada proyecto una base firme: lectura del lugar, rigor técnico y la certeza de que un buen espacio se resuelve primero en el criterio.",
+  },
+  {
+    name: "Luis Felipe López",
+    role: "Arquitecto",
+    text: "Lleva las ideas del plano al espacio con una mirada actual. Explora formas, materiales y herramientas nuevas para imaginar lo que todavía no existe y hacerlo construible.",
+  },
+];
+---
+
+<section class="team" id="equipo" aria-label="Equipo">
+  {
+    members.map((member, index) => (
+      <article class="member reveal">
+        <span class="member__index">{String(index + 1).padStart(2, "0")}</span>
+        <h2 class="member__name">{member.name}</h2>
+        <p class="member__role">{member.role}</p>
+        <p class="member__text">{member.text}</p>
+      </article>
+    ))
+  }
+</section>
+
+<style>
+  .team {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 7vw, 110px);
+    padding: clamp(64px, 11vh, 120px) var(--gutter);
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  .member {
+    position: relative;
+    padding-top: 28px;
+    border-top: 1px solid rgba(202, 202, 203, 0.2);
+  }
+
+  .member:nth-child(2) {
+    transition-delay: 0.15s;
+  }
+
+  /* Accent line drawn in once the profile is revealed. */
+  .member::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -1px;
+    width: 64px;
+    height: 1px;
+    background: #8a0d0d;
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 1.2s var(--ease) 0.3s;
+  }
+
+  .member.is-in::before {
+    transform: scaleX(1);
+  }
+
+  .member__index {
+    display: block;
+    font-family: var(--font-wide);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--color-gris);
+    opacity: 0.6;
+    margin-bottom: 22px;
+  }
+
+  .member__name {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: clamp(20px, 2vw, 28px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--color-blanco);
+  }
+
+  .member__role {
+    margin: 14px 0 26px;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--color-gris);
+  }
+
+  .member__text {
+    margin: 0;
+    max-width: 44ch;
+    font-size: clamp(14px, 1vw, 15px);
+    color: rgba(227, 227, 227, 0.78);
+  }
+
+  @media (max-width: 760px) {
+    .team {
+      grid-template-columns: 1fr;
+      gap: 52px;
+    }
+  }
+
+  /* Without JS (no reveal) or with reduced motion, show the accent line as is. */
+  :global(html:not(.js)) .member::before {
+    transform: scaleX(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .member::before {
+      transform: scaleX(1);
+      transition: none;
+    }
+  }
+</style>

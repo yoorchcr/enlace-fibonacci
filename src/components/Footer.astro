@@ -1,31 +1,42 @@
 ---
-import { SITE } from "../config/site";
-
-const year = new Date().getFullYear();
+import logo from "../assets/brand/logo-horizontal.svg";
 ---
 
-<footer class="border-t border-edge bg-surface-muted">
-  <div
-    class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-8 sm:px-6"
-  >
-    <p class="text-sm text-ink-muted">
-      &copy; {year} {SITE.name}. All rights reserved.
-    </p>
-    <nav aria-label="Footer">
-      <ul class="flex flex-wrap items-center gap-x-6 gap-y-1">
-        {
-          SITE.nav.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                class="text-sm text-ink-muted transition-colors hover:text-ink"
-              >
-                {item.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
-  </div>
+<footer class="footer">
+  <img class="footer__logo" src={logo.src} alt="Enlace Fibonacci" width="220" height="40" />
+  <p class="footer__meta">Unión · Solidez · Confianza</p>
+  <p class="footer__meta">© 2026 enlacefibonacci.com</p>
 </footer>
+
+<style>
+  .footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px 40px;
+    padding: 40px var(--gutter) 48px;
+  }
+
+  .footer__logo {
+    width: 140px;
+    height: auto;
+    opacity: 0.9;
+  }
+
+  .footer__meta {
+    margin: 0;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-gris);
+    opacity: 0.6;
+  }
+
+  @media (max-width: 760px) {
+    .footer {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

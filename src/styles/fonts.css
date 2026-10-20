@@ -1,24 +1,58 @@
 /*
- * Self-hosted fonts.
+ * Self-hosted brand fonts (from the approved Enlace Fibonacci artifact,
+ * authorized for use by the client). Vite resolves and fingerprints each
+ * url(). Never load fonts from third-party CDNs.
  *
- * The Foundation ships with a system font stack (see --font-sans in
- * global.css) so no font files are required. To self-host a font in a
- * client project:
- *
- *   1. Place the font files (.woff2) in src/assets/fonts/.
- *   2. Uncomment and adapt the @font-face template below.
- *      Vite resolves the relative url() and fingerprints the file.
- *   3. Add the family name to --font-sans in global.css.
- *
- * Never load fonts from third-party CDNs (privacy, performance, GDPR).
+ * - NewBlack (foxtype): body copy, names, eyebrow labels.
+ * - Owners XWide (MCKL): claim and index numbers. The supplied files are the
+ *   "Owners TRIAL XWide" build, which only covers unaccented Latin letters,
+ *   digits, and basic punctuation.
  */
 
-/*
 @font-face {
-  font-family: "ClientFont";
-  src: url("../assets/fonts/client-font-variable.woff2") format("woff2");
-  font-weight: 100 900;
+  font-family: "NewBlack";
+  src: url("../assets/fonts/newblack-light.woff2") format("woff2");
+  font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
-*/
+
+@font-face {
+  font-family: "NewBlack";
+  src: url("../assets/fonts/newblack-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NewBlack";
+  src: url("../assets/fonts/newblack-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NewBlack";
+  src: url("../assets/fonts/newblack-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OwnersXWide";
+  src: url("../assets/fonts/owners-xwide-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OwnersXWide";
+  src: url("../assets/fonts/owners-xwide-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}

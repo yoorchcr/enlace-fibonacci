@@ -1,0 +1,134 @@
+---
+/**
+ * Editorial composition: the portrait blended into the background, with the
+ * brand claim overlapping its lower edge. The photo zooms out gently while
+ * the section scrolls through the viewport.
+ */
+import { Image } from "astro:assets";
+import fotografia from "../assets/img/fotografia.webp";
+---
+
+<section class="photo" id="fotografia" aria-label="Fotografía">
+  <figure class="photo__frame reveal">
+    <Image
+      class="photo__img"
+      src={fotografia}
+      widths={[430, 860, fotografia.width]}
+      sizes="min(430px, 78vw)"
+      quality={85}
+      loading="eager"
+      alt="Retrato en blanco y negro: un mismo rostro dividido entre dos generaciones"
+    />
+  </figure>
+  <p class="photo__claim reveal">
+    <span>Nace en <strong>el plano.</strong></span>
+    <span><strong>Se siente</strong> en el espacio.</span>
+  </p>
+</section>
+
+<style>
+  .photo {
+    position: relative;
+    overflow-x: clip;
+    padding: clamp(64px, 11vh, 120px) var(--gutter) clamp(48px, 8vh, 90px);
+    display: grid;
+    justify-items: center;
+  }
+
+  /* Soft shadow behind the portrait: the photo's black melts into the background. */
+  .photo::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    left: 50%;
+    top: 42%;
+    width: min(980px, 170vw);
+    height: min(1120px, 190vw);
+    transform: translate(-50%, -50%);
+    background: radial-gradient(
+      closest-side,
+      rgba(3, 3, 3, 0.97) 38%,
+      rgba(3, 3, 3, 0.7) 60%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+  .photo__frame {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    width: min(430px, 78vw);
+    overflow: hidden;
+    /* Fades the portrait's edges into the background. */
+    -webkit-mask-image: radial-gradient(60% 58% at 50% 42%, #000 45%, transparent 100%);
+    mask-image: radial-gradient(60% 58% at 50% 42%, #000 45%, transparent 100%);
+  }
+
+  .photo__img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1125 / 1600; /* exact ratio, regardless of the srcset variant's rounding */
+    transform: scale(var(--photo-scale, 1.08));
+    transform-origin: 50% 40%;
+    will-change: transform;
+  }
+
+  .photo__claim {
+    position: relative;
+    z-index: 3;
+    margin: clamp(-80px, -6vw, -44px) 0 0;
+    text-align: center;
+    font-family: var(--font-wide);
+    font-weight: 400;
+    font-size: clamp(18px, 2.6vw, 38px);
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    color: var(--color-blanco);
+  }
+
+  .photo__claim span {
+    display: block;
+  }
+
+  .photo__claim strong {
+    font-weight: 700;
+  }
+
+  @media (max-width: 760px) {
+    .photo__claim {
+      margin-top: -36px;
+    }
+  }
+</style>
+
+<script>
+  // The photo zooms out gently while the section is scrolled through.
+  const section = document.querySelector<HTMLElement>(".photo");
+  const img = document.querySelector<HTMLElement>(".photo__img");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (section && img && !reduceMotion) {
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+      const rect = section.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const progress = Math.max(0, Math.min(1, (vh - rect.top) / (vh + rect.height)));
+      img.style.setProperty("--photo-scale", (1.12 - progress * 0.12).toFixed(4));
+    };
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true },
+    );
+    update();
+  }
+</script>
