@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main, staging]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type and content checks
+        run: npm run check
+
+      - name: Preview fail-safe build
+        run: npm run build
+
+      - name: Production guard rejects missing SITE_URL
+        run: |
+          if WORKERS_CI_BRANCH=main npm run build; then
+            echo "Expected main build without SITE_URL to fail."
+            exit 1
+          fi
+
+      - name: Production build smoke test
+        run: npm run build
+        env:
+          WORKERS_CI_BRANCH: main
+          SITE_URL: https://example.com
+
+      - name: Project initializer smoke test
+        run: |
+          npm run init:project -- --slug foundation-smoke-test --name "Foundation Smoke Test" --lang es
+          grep -q '"name": "foundation-smoke-test"' package.json
+          grep -q '"name": "foundation-smoke-test"' wrangler.jsonc
+          grep -q 'name: "Foundation Smoke Test"' src/config/site.ts
+          grep -q 'lang: "es"' src/config/site.ts

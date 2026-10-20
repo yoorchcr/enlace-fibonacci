@@ -1,0 +1,26 @@
+---
+/**
+ * Standard page section: full-width background with a centered,
+ * padded content container. The only layout pattern repeated on
+ * every page, extracted to avoid duplicating spacing rules.
+ */
+interface Props {
+  id?: string;
+  variant?: "default" | "muted" | "brand";
+  class?: string;
+}
+
+const { id, variant = "default", class: className } = Astro.props;
+
+const variantClasses = {
+  default: "bg-surface",
+  muted: "bg-surface-muted",
+  brand: "bg-brand-900 text-white",
+};
+---
+
+<section id={id} class:list={[variantClasses[variant], className]}>
+  <div class="mx-auto max-w-5xl px-4 py-16 sm:px-6 md:py-20">
+    <slot />
+  </div>
+</section>

@@ -1,0 +1,110 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import Button from "../components/Button.astro";
+import FormEmbed from "../components/FormEmbed.astro";
+import heroImage from "../assets/placeholder-hero.png";
+
+// Generic validation page for the Foundation. Client projects replace
+// this content entirely; the structure below is the reference pattern.
+
+const features = [
+  {
+    title: "Fast by default",
+    description:
+      "Static HTML with no client-side framework. Pages ship only the markup and styles they need.",
+  },
+  {
+    title: "Portable hosting",
+    description:
+      "The production build is a plain dist/ folder that runs on any static host, with no vendor lock-in.",
+  },
+  {
+    title: "Maintainable",
+    description:
+      "A small set of components and design tokens keeps every project understandable months later.",
+  },
+];
+---
+
+<BaseLayout
+  title="Antidote Website Foundation — Example Landing"
+  description="Example landing page demonstrating the Foundation's layout, components, and design tokens."
+>
+  <!-- Hero -->
+  <Section variant="muted">
+    <div class="grid items-center gap-10 md:grid-cols-2">
+      <div>
+        <h1 class="text-4xl font-bold tracking-tight text-balance md:text-5xl">
+          Launch professional websites in days, not weeks
+        </h1>
+        <p class="mt-4 max-w-prose text-lg text-ink-muted">
+          A generic hero headline and supporting copy. This page validates the
+          Foundation's layout, tokens, and components with a typical landing
+          structure.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <Button href="/#contact">Get started</Button>
+          <Button href="/#features" variant="secondary">See features</Button>
+        </div>
+      </div>
+      <Image
+        src={heroImage}
+        alt=""
+        class="h-auto w-full rounded-(--radius-panel) border border-edge"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </Section>
+
+  <!-- Features / benefits -->
+  <Section id="features">
+    <h2 class="text-3xl font-bold tracking-tight">Why it works</h2>
+    <div class="mt-10 grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+      {
+        features.map((feature) => (
+          <article class="rounded-(--radius-panel) border border-edge bg-surface p-6">
+            <h3 class="text-lg font-semibold">{feature.title}</h3>
+            <p class="mt-2 text-sm text-ink-muted">{feature.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- Content -->
+  <Section id="about" variant="muted">
+    <div class="max-w-prose">
+      <h2 class="text-3xl font-bold tracking-tight">Built on one foundation</h2>
+      <p class="mt-4 text-ink-muted">
+        Every project starts from the same audited base: semantic HTML, a small
+        design token system, accessible components, and SEO metadata handled in
+        one place. Client work focuses on content and brand, not plumbing.
+      </p>
+      <p class="mt-4 text-ink-muted">
+        Because the output is fully static, sites can move between hosting
+        platforms without code changes — GitHub remains the single source of
+        truth.
+      </p>
+    </div>
+  </Section>
+
+  <!-- CTA with external form embed (fallback mode: no src provided) -->
+  <Section id="contact">
+    <div class="mx-auto max-w-2xl text-center">
+      <h2 class="text-3xl font-bold tracking-tight">Ready to talk?</h2>
+      <p class="mt-4 text-ink-muted">
+        In a client project, pass an external form URL to
+        <code class="rounded bg-surface-muted px-1.5 py-0.5 text-sm">FormEmbed</code>
+        (e.g. <code class="rounded bg-surface-muted px-1.5 py-0.5 text-sm"
+          >src="https://forms.example.com/…"</code
+        >). Without one, it renders this CTA fallback.
+      </p>
+      <div class="mt-8 text-left">
+        <FormEmbed title="Contact form" />
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

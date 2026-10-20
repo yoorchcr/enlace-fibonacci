@@ -1,0 +1,24 @@
+/*
+ * Self-hosted fonts.
+ *
+ * The Foundation ships with a system font stack (see --font-sans in
+ * global.css) so no font files are required. To self-host a font in a
+ * client project:
+ *
+ *   1. Place the font files (.woff2) in src/assets/fonts/.
+ *   2. Uncomment and adapt the @font-face template below.
+ *      Vite resolves the relative url() and fingerprints the file.
+ *   3. Add the family name to --font-sans in global.css.
+ *
+ * Never load fonts from third-party CDNs (privacy, performance, GDPR).
+ */
+
+/*
+@font-face {
+  font-family: "ClientFont";
+  src: url("../assets/fonts/client-font-variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+*/

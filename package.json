@@ -1,0 +1,28 @@
+{
+  "name": "antidote-website-foundation",
+  "version": "1.0.2",
+  "description": "Antidote's reusable foundation for small corporate websites and landing pages.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "check": "astro check",
+    "build": "astro build",
+    "preview": "astro preview",
+    "init:project": "node scripts/init-project.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.3",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^5.9.2",
+    "wrangler": "^4.136.3"
+  }
+}

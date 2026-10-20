@@ -1,0 +1,14 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+
+# Version-update PRs are reviewed manually. Dependabot alerts and security
+# updates are separate repository settings and should be enabled once per repo.

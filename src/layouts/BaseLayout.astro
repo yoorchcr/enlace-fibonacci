@@ -1,0 +1,78 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE } from "../config/site";
+import { isProductionBranchBuild } from "../utils/production-branch";
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Override the canonical URL; defaults to the current page URL on Astro.site. */
+  canonical?: string;
+  /** Open Graph image path or URL; defaults to the site-wide placeholder. */
+  ogImage?: string;
+  /** Exclude this single page from search engines. */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = SITE.defaultDescription,
+  canonical,
+  ogImage = SITE.ogImage,
+  noindex = false,
+} = Astro.props;
+
+const canonicalURL = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
+const ogImageURL = new URL(ogImage, Astro.site).href;
+
+// Only an actual Cloudflare Workers Builds build of `main` is indexable.
+// Staging, feature branches, and builds without WORKERS_CI_BRANCH fail safe
+// to noindex. See src/utils/production-branch.ts.
+const isProduction = isProductionBranchBuild();
+const isNoindex = noindex || !isProduction;
+---
+
+<!doctype html>
+<html lang={SITE.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {isNoindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {isProduction && <link rel="sitemap" href="/sitemap-index.xml" />}
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!--
+      Analytics: client projects inject approved snippets through this slot
+      from their pages/layouts. Nothing is loaded by default. See README.
+    -->
+    <slot name="head" />
+  </head>
+  <body class="flex min-h-svh flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-(--radius-control) focus:bg-brand-600 focus:px-4 focus:py-2 focus:text-white"
+    >
+      Skip to main content
+    </a>
+    <Header />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

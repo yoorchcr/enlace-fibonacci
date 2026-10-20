@@ -1,0 +1,53 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+/*
+ * Design tokens.
+ *
+ * Tokens defined inside @theme become both CSS custom properties
+ * (e.g. var(--color-brand-600)) and Tailwind utilities (e.g. bg-brand-600).
+ * A client project restyles the site by editing this block, not components.
+ */
+@theme {
+  /* Typography — system stack by default; see fonts.css for self-hosted fonts. */
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+
+  /* Brand palette */
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #dce7fd;
+  --color-brand-500: #3b6fe0;
+  --color-brand-600: #2b57c2;
+  --color-brand-700: #22459b;
+  --color-brand-900: #182e63;
+
+  /* Semantic colors */
+  --color-ink: #1a2233; /* primary text */
+  --color-ink-muted: #55607a; /* secondary text */
+  --color-surface: #ffffff; /* page background */
+  --color-surface-muted: #f4f6fa; /* alternate section background */
+  --color-edge: #dde3ee; /* borders and dividers */
+
+  /* Shape */
+  --radius-control: 0.5rem; /* buttons, inputs */
+  --radius-panel: 0.75rem; /* cards, embeds */
+}
+
+/* Base document defaults */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}

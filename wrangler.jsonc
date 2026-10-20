@@ -1,0 +1,20 @@
+{
+  // Cloudflare Workers Builds is the deployment mechanism for client projects
+  // derived from this Foundation. GitHub Actions validates only; it does not deploy.
+  //
+  // Keep one Worker per site. `main` is production. `staging` and feature
+  // branches use isolated Worker Previews. Change `name` when creating a
+  // client project.
+  //
+  // Production does not expose a duplicate *.workers.dev URL. Preview URLs
+  // remain enabled separately and are protected account-wide with Cloudflare Access.
+  "name": "antidote-website-foundation",
+  "compatibility_date": "2026-09-22",
+  "workers_dev": false,
+  "preview_urls": true,
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  },
+  "previews": {}
+}
