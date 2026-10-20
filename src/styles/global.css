@@ -2,36 +2,30 @@
 @import "./fonts.css";
 
 /*
- * Design tokens.
+ * Design tokens (Enlace Fibonacci brandbook).
  *
  * Tokens defined inside @theme become both CSS custom properties
- * (e.g. var(--color-brand-600)) and Tailwind utilities (e.g. bg-brand-600).
- * A client project restyles the site by editing this block, not components.
+ * (e.g. var(--color-blanco)) and Tailwind utilities (e.g. text-blanco).
+ * Section-specific styling lives in each component's <style> block,
+ * carried over from the approved artifact.
  */
 @theme {
-  /* Typography — system stack by default; see fonts.css for self-hosted fonts. */
-  --font-sans:
-    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
-    Arial, sans-serif;
+  --font-sans: "NewBlack", "Helvetica Neue", Arial, sans-serif;
+  --font-wide: "OwnersXWide", "NewBlack", "Helvetica Neue", Arial, sans-serif;
 
-  /* Brand palette */
-  --color-brand-50: #eef4ff;
-  --color-brand-100: #dce7fd;
-  --color-brand-500: #3b6fe0;
-  --color-brand-600: #2b57c2;
-  --color-brand-700: #22459b;
-  --color-brand-900: #182e63;
+  --color-negro: #0f1010;
+  --color-gris-claro: #e3e3e3;
+  --color-blanco: #f6f6f6;
+  --color-gris: #cacacb;
+  --color-rojo: #560000;
+  --color-vino: #35010d;
+  --color-fondo: #070707; /* page background behind the textures */
+}
 
-  /* Semantic colors */
-  --color-ink: #1a2233; /* primary text */
-  --color-ink-muted: #55607a; /* secondary text */
-  --color-surface: #ffffff; /* page background */
-  --color-surface-muted: #f4f6fa; /* alternate section background */
-  --color-edge: #dde3ee; /* borders and dividers */
-
-  /* Shape */
-  --radius-control: 0.5rem; /* buttons, inputs */
-  --radius-panel: 0.75rem; /* cards, embeds */
+:root {
+  color-scheme: dark;
+  --gutter: max(20px, min(5vw, 80px), env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px));
+  --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
 }
 
 /* Base document defaults */
@@ -39,15 +33,53 @@ html {
   scroll-behavior: smooth;
 }
 
+body {
+  background-color: var(--color-fondo);
+  color: var(--color-gris-claro);
+  font-family: var(--font-sans);
+  font-size: 14px; /* base size of the approved artifact */
+  font-weight: 300;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-rojo);
+  color: var(--color-blanco);
+}
+
+:focus-visible {
+  outline: 1px solid var(--color-blanco);
+  outline-offset: 4px;
+}
+
+/*
+ * Scroll reveal. Hidden only once JS is known to run (BaseLayout adds `.js`
+ * to <html> before first paint), so content is never lost without JS.
+ */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition:
+    opacity 1.1s var(--ease),
+    transform 1.1s var(--ease);
+}
+
+.js .reveal.is-in,
+.js .reveal:focus-within {
+  opacity: 1;
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-}
 
-body {
-  background-color: var(--color-surface);
-  color: var(--color-ink);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }

@@ -1,20 +1,15 @@
 /**
- * Site-wide configuration.
+ * Site-wide configuration: name, language, and default metadata.
  *
- * A client project started from the Foundation should edit this file first:
- * name, language, default metadata, and navigation all live here.
+ * The description is drawn only from the approved page copy (team, claim, and
+ * the Estadio Heredia project). Confirm it with the client before launch.
  */
 export const SITE = {
-  name: "Antidote Foundation",
-  lang: "en",
-  defaultTitle: "Antidote Website Foundation",
+  name: "Enlace Fibonacci",
+  lang: "es",
+  defaultTitle: "Enlace Fibonacci",
   defaultDescription:
-    "A reusable foundation for building small corporate websites and landing pages quickly and professionally.",
-  /** Default Open Graph image, relative to the site root. Replace per client. */
-  ogImage: "/images/og-default.png",
-  nav: [
-    { label: "Features", href: "/#features" },
-    { label: "About", href: "/#about" },
-    { label: "Contact", href: "/#contact" },
-  ],
+    "Enlace Fibonacci: Gerardo López y Luis Felipe López, arquitectos. Proyectos que nacen en el plano y se sienten en el espacio, como el Estadio Heredia.",
+  /** Default Open Graph image, relative to the site root. */
+  ogImage: "/images/og-enlace-fibonacci.jpg",
 } as const;

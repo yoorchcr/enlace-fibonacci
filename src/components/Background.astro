@@ -1,0 +1,107 @@
+---
+/**
+ * One continuous, fixed background behind the whole site (textures + veil +
+ * grain), so there are no seams between sections. A small script maps scroll
+ * progress to `--s` (0 → 1), which crossfades the textures and darkens the veil.
+ */
+---
+
+<div class="bg" aria-hidden="true">
+  <span class="bg__tex bg__tex--a"></span>
+  <span class="bg__tex bg__tex--b"></span>
+  <span class="bg__tex bg__tex--c"></span>
+  <span class="bg__veil"></span>
+  <span class="bg__grain"></span>
+</div>
+
+<style>
+  .bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    background: var(--color-fondo);
+    --s: 0;
+  }
+
+  .bg > span {
+    position: absolute;
+    display: block;
+    will-change: transform;
+  }
+
+  /* Official textures, tinted in brand red, crossfading as the page scrolls. */
+  .bg__tex {
+    inset: -6%;
+    background: center / cover no-repeat;
+    transform: scale(calc(1.04 + var(--s) * 0.1)) translate3d(0, calc(var(--s) * -3vh), 0);
+    transition: opacity 0.2s linear;
+  }
+
+  .bg__tex--a {
+    background-image: url("../assets/img/textura-a.webp");
+    opacity: clamp(0, calc((0.42 - var(--s)) / 0.15), 1);
+  }
+
+  .bg__tex--b {
+    background-image: url("../assets/img/textura-b.webp");
+    opacity: min(
+      clamp(0, calc((var(--s) - 0.28) / 0.15), 1),
+      clamp(0, calc((0.78 - var(--s)) / 0.15), 1)
+    );
+  }
+
+  .bg__tex--c {
+    background-image: url("../assets/img/textura-c.webp");
+    opacity: clamp(0, calc((var(--s) - 0.64) / 0.15), 1);
+  }
+
+  /* Black veil: the background darkens while scrolling down. */
+  .bg__veil {
+    inset: 0;
+    background: #050505;
+    opacity: clamp(0, calc(var(--s) * 3.2), 0.84);
+  }
+
+  /* Fine 1px grain, Retina density. */
+  .bg__grain {
+    inset: 0;
+    background: url("../assets/img/grano.webp") repeat;
+    background-size: 256px 256px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bg__tex {
+      transform: scale(1.04);
+    }
+  }
+</style>
+
+<script>
+  const bg = document.querySelector<HTMLElement>(".bg");
+
+  if (bg) {
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const s = max > 0 ? window.scrollY / max : 0;
+      bg.style.setProperty("--s", s.toFixed(4));
+    };
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true },
+    );
+    window.addEventListener("resize", update);
+    update();
+  }
+</script>

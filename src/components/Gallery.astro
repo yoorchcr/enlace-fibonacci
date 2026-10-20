@@ -1,0 +1,304 @@
+---
+/**
+ * Estadio Heredia gallery with an accessible lightbox.
+ *
+ * Thumbnails are responsive, optimized variants; the lightbox opens the
+ * original file at full quality. The viewer is a native modal <dialog>:
+ * it traps focus, closes with Escape, the × button, or a click outside the
+ * image, and returns focus to the thumbnail that opened it.
+ */
+import { Image } from "astro:assets";
+import galeria01 from "../assets/img/galeria-01.webp";
+import galeria02 from "../assets/img/galeria-02.webp";
+import galeria03 from "../assets/img/galeria-03.webp";
+import galeria04 from "../assets/img/galeria-04.webp";
+
+const shots = [
+  {
+    image: galeria01,
+    alt: "Fachada principal del Estadio Heredia al atardecer",
+    caption: "Fachada principal",
+  },
+  {
+    image: galeria02,
+    alt: "Graderías y cubierta del Estadio Heredia",
+    caption: "Graderías",
+  },
+  {
+    image: galeria03,
+    alt: "Vista aérea del Estadio Heredia y su entorno urbano",
+    caption: "Vista aérea",
+  },
+  {
+    image: galeria04,
+    alt: "Acceso interior al bloque C con señalética de Enlace Fibonacci",
+    caption: "Acceso bloque C",
+  },
+];
+---
+
+<section class="gallery" id="galeria" aria-labelledby="galeria-title">
+  <header class="gallery__head reveal">
+    <p class="eyebrow">Proyectos</p>
+    <h2 class="gallery__title" id="galeria-title">Estadio <strong>Heredia</strong></h2>
+  </header>
+
+  <div class="gallery__grid">
+    {
+      shots.map((shot) => (
+        <figure class="shot reveal">
+          <button
+            class="shot__btn"
+            type="button"
+            aria-haspopup="dialog"
+            aria-controls="lightbox"
+            data-full={shot.image.src}
+          >
+            <Image
+              src={shot.image}
+              widths={[400, 700, 1000]}
+              sizes="(max-width: 760px) 88vw, 345px"
+              alt={shot.alt}
+            />
+          </button>
+          <figcaption>{shot.caption}</figcaption>
+        </figure>
+      ))
+    }
+  </div>
+</section>
+
+<dialog class="lightbox" id="lightbox" aria-label="Visor de galería">
+  <button class="lightbox__close" type="button" aria-label="Cerrar">×</button>
+  <img class="lightbox__img" alt="" />
+</dialog>
+
+<style>
+  .gallery {
+    position: relative;
+    padding: clamp(48px, 8vh, 96px) var(--gutter) clamp(80px, 13vh, 140px);
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  .gallery__head {
+    margin-bottom: clamp(32px, 5vh, 56px);
+  }
+
+  .eyebrow {
+    margin: 0 0 14px;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-gris);
+    opacity: 0.7;
+  }
+
+  .gallery__title {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: clamp(24px, 3vw, 42px);
+    line-height: 1;
+    color: var(--color-blanco);
+  }
+
+  .gallery__title strong {
+    font-weight: 700;
+  }
+
+  .gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(14px, 2.4vw, 36px);
+  }
+
+  .shot {
+    margin: 0;
+  }
+
+  /* Offset second column: editorial rhythm. */
+  .shot:nth-child(even) {
+    margin-top: clamp(28px, 7vw, 96px);
+    transition-delay: 0.12s;
+  }
+
+  .shot__btn {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: #000;
+    cursor: zoom-in;
+    overflow: hidden;
+  }
+
+  .shot__btn img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    filter: grayscale(0.35) contrast(1.05);
+    transform: scale(1.02);
+    transition:
+      transform 1.2s var(--ease),
+      filter 0.8s ease;
+  }
+
+  .shot__btn:hover img,
+  .shot__btn:focus-visible img {
+    transform: scale(1.07);
+    filter: none;
+  }
+
+  .shot figcaption {
+    margin-top: 14px;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-gris);
+    opacity: 0.7;
+  }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 4vmin;
+    border: 0;
+    background: rgba(10, 10, 10, 0.94);
+    color: var(--color-blanco);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+
+  .lightbox:not([open]) {
+    display: none;
+  }
+
+  .lightbox:not(.is-open) {
+    pointer-events: none;
+  }
+
+  .lightbox.is-open {
+    opacity: 1;
+  }
+
+  .lightbox::backdrop {
+    background: transparent;
+  }
+
+  .lightbox__img {
+    max-height: 92vh;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+  }
+
+  .lightbox__close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    border: 0;
+    background: none;
+    color: var(--color-blanco);
+    font-family: system-ui, sans-serif;
+    font-size: 36px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  @media (max-width: 760px) {
+    .gallery__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .shot:nth-child(odd) {
+      width: 88%;
+    }
+
+    .shot:nth-child(even) {
+      width: 88%;
+      margin-top: 0;
+      margin-left: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .shot__btn img {
+      transition: filter 0.8s ease;
+    }
+
+    .shot__btn:hover img,
+    .shot__btn:focus-visible img {
+      transform: scale(1.02);
+    }
+
+    .lightbox {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>("#lightbox");
+  const img = dialog?.querySelector<HTMLImageElement>(".lightbox__img");
+
+  if (dialog && img) {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let opener: HTMLElement | null = null;
+    let closeTimer: number | undefined;
+
+    const open = (button: HTMLElement) => {
+      const thumb = button.querySelector("img");
+      window.clearTimeout(closeTimer);
+      opener = button;
+      img.src = button.dataset.full ?? "";
+      img.alt = thumb?.alt ?? "";
+      dialog.showModal();
+      requestAnimationFrame(() => dialog.classList.add("is-open"));
+      document.body.style.overflow = "hidden";
+    };
+
+    const close = () => {
+      if (!dialog.open) return;
+      dialog.classList.remove("is-open");
+      document.body.style.overflow = "";
+      window.clearTimeout(closeTimer);
+      closeTimer = window.setTimeout(
+        () => {
+          dialog.close();
+          img.removeAttribute("src");
+          opener?.focus();
+        },
+        reduceMotion.matches ? 0 : 350,
+      );
+    };
+
+    document.querySelectorAll<HTMLElement>(".shot__btn").forEach((button) => {
+      button.addEventListener("click", () => open(button));
+    });
+
+    // Any click inside the viewer except on the image itself closes it.
+    dialog.addEventListener("click", (event) => {
+      if (event.target !== img) close();
+    });
+
+    // Escape: run the fade-out instead of the instant native close.
+    dialog.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      close();
+    });
+  }
+</script>

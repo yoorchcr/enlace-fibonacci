@@ -1,20 +1,25 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Section from "../components/Section.astro";
-import Button from "../components/Button.astro";
 ---
 
-<BaseLayout title="Page not found" noindex>
-  <Section>
-    <div class="mx-auto max-w-xl py-12 text-center">
-      <p class="text-sm font-semibold text-brand-600">404</p>
-      <h1 class="mt-2 text-4xl font-bold tracking-tight">Page not found</h1>
-      <p class="mt-4 text-ink-muted">
-        The page you are looking for doesn't exist or has been moved.
+<BaseLayout title="Página no encontrada | Enlace Fibonacci" noindex>
+  <section class="grid min-h-[70svh] place-items-center px-(--gutter) py-24 text-center">
+    <div>
+      <p class="mb-3.5 text-[10px] font-medium tracking-[0.28em] text-gris uppercase opacity-70">
+        Error 404
       </p>
-      <div class="mt-8">
-        <Button href="/">Back to home</Button>
-      </div>
+      <h1 class="text-[clamp(24px,3vw,42px)] leading-none font-normal text-blanco">
+        Página <strong class="font-bold">no encontrada</strong>
+      </h1>
+      <p class="mt-6 text-[15px] text-gris-claro/80">
+        La página que busca no existe o fue movida.
+      </p>
+      <a
+        href="/"
+        class="mt-8 inline-block border-b border-gris/40 pb-1 text-[11px] font-medium tracking-[0.24em] text-blanco uppercase transition-colors hover:border-blanco"
+      >
+        Volver al inicio
+      </a>
     </div>
-  </Section>
+  </section>
 </BaseLayout>

@@ -1,8 +1,8 @@
-# Antidote Website Foundation
+# Enlace Fibonacci
 
-Internal reusable foundation for small corporate websites and landing pages.
-The rendered site is static and portable; the default deployment workflow is
-Cloudflare Workers + Workers Builds + Worker Previews.
+Website for Enlace Fibonacci, built on the Antidote Website Foundation from
+the client-approved design. The rendered site is static and portable;
+deployment uses Cloudflare Workers + Workers Builds + Worker Previews.
 
 ## Stack
 
@@ -31,24 +31,32 @@ npm run check
 npm run build
 ```
 
-## Start a client project
+## Project initialization
 
-Create a new repository from this GitHub template, then initialize the
-project-specific identifiers:
+This repository was initialized from the Foundation template with:
 
 ```sh
-npm run init:project -- --slug client-project --name "Client Name" --lang es
+npm run init:project -- --slug enlace-fibonacci --name "Enlace Fibonacci" --lang es
 ```
 
-The helper updates:
+Worker name, package name, Wrangler compatibility date, and site metadata are
+already project-specific.
 
-- package / lockfile project name;
-- Worker name;
-- Wrangler compatibility date;
-- site name, language, and default title.
+## Site implementation notes
 
-Then replace the Foundation placeholder content, assets, metadata, navigation,
-and design tokens with the approved client design.
+- One page (`src/pages/index.astro`) composed of `Hero`, `Photo`, `Team`, and
+  `Gallery`; `Background` (fixed textured background) and `Footer` come from
+  `BaseLayout`.
+- Brand tokens (palette, fonts) live in `src/styles/global.css`; section CSS
+  carried over from the approved artifact lives in each component's `<style>`.
+- Fonts are self-hosted WOFF2 in `src/assets/fonts/` (see `src/styles/fonts.css`).
+- Images live in `src/assets/img/` and go through `astro:assets` (responsive
+  `srcset`); the gallery lightbox opens the original file.
+- **Header animation slot:** the brand symbol's entrance is provisional. Replace
+  the contents of `#hero-animation` in `src/components/Hero.astro` without
+  touching the rest of the hero.
+- Motion respects `prefers-reduced-motion`; scroll-reveal content stays visible
+  without JavaScript.
 
 ## Branch workflow
 
